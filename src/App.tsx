@@ -219,10 +219,10 @@ export default function App() {
       {/* ✅ ボタンは Canvas の外（普通のDOM） */}
       <div style={{ position: "absolute", left: 16, top: 16, zIndex: 10 }}>
         <div>
-          Results: <b>{finalValues ? finalValues.join(", ") : "-"}</b>
+          結果: <b>{finalValues ? finalValues.join(", ") : "-"}</b>
         </div>
         <div>
-          Sum: <b>{finalValues ? finalValues.reduce((a, b) => a + b, 0) : "-"}</b>
+          合計: <b>{finalValues ? finalValues.reduce((a, b) => a + b, 0) : "-"}</b>
         </div>
       </div>
       <div style={{ position: "fixed", left: "50%", top: "80%", transform: "translate(-50%, 0)", zIndex: 10 }}>
