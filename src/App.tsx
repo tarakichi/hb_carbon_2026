@@ -1,7 +1,8 @@
 import * as THREE from "three";
-import React, {
+import {
   Suspense,
   forwardRef,
+  useEffect,
   useImperativeHandle,
   useMemo,
   useRef,
@@ -154,7 +155,6 @@ const Dice = forwardRef<DiceHandle, { onSettled: (v: number) => void; spawn: Vec
 
 export default function App() {
   const diceRefs = useRef<(DiceHandle | null)[]>([]);
-  const [values, setValues] = useState<(number | null)[]>([null, null, null]);
 
   const N = 3;
   const [pendingValues, setPendingValues] = useState<(number | null)[]>(Array(N).fill(null));
@@ -163,6 +163,9 @@ export default function App() {
   const [modalOpen, setModalOpen] = useState(false);
   const [modalContent, setModalContent] = useState<ReactNode>(null);
 
+  useEffect(() => {
+    console.log(pendingValues);
+  })
 
 
   const rollAll = () => {
