@@ -42,7 +42,12 @@ function getDiceValue(worldQuat: THREE.Quaternion) {
 // ===== 見た目（あとで glb に置換OK） =====
 function DiceVisual() {
   const gltf = useGLTF("/models/dice.glb");
-  return <Clone object={gltf.scene} scale={0.6} />
+  return <Clone object={gltf.scene} scale={0.5} />
+}
+
+function CupVisual() {
+  const gltf = useGLTF("/models/cup.glb");
+  return <primitive object={gltf.scene} scale={7.0} />
 }
 
 // ===== Dice：refで roll() を外から呼べるようにする =====
@@ -228,17 +233,10 @@ export default function App() {
           合計: <b>{finalValues ? finalValues.reduce((a, b) => a + b, 0) : "-"}</b>
         </div>
       </div>
-      <div style={{ position: "fixed", left: "50%", top: "80%", transform: "translate(-50%, 0)", zIndex: 10 }}>
+      <div style={{ position: "fixed", left: "50%", top: "85%", transform: "translate(-50%, 0)", zIndex: 10 }}>
         <button
           onClick={rollAll}
-          style={{
-            fontSize: 16,
-            padding: "10px 14px",
-            borderRadius: 10,
-            border: "1px solid #ccc",
-            background: "white",
-            cursor: "pointer",
-          }}
+          className="btn-square"
         >
           振る
         </button>
@@ -246,7 +244,7 @@ export default function App() {
 
       <Canvas shadows camera={{ position: [10, 20, 10], fov: 50 }}>
         <Suspense fallback={null}>
-          <Environment files="/hdr/golden_gate_hills_4k.exr" background />
+          <Environment preset="dawn" background />
         </Suspense>
         <ambientLight intensity={0.6} />
         <directionalLight position={[5, 8, 5]} intensity={1.2} castShadow />
@@ -255,11 +253,14 @@ export default function App() {
 
         <Physics gravity={[0, -9.81, 0]}>
           {/* 床 */}
-          <RigidBody type="fixed" colliders="cuboid">
-            <mesh rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
+          <RigidBody type="fixed" colliders="trimesh">
+            {/* <mesh rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
               <planeGeometry args={[20, 20]} />
               <meshStandardMaterial />
-            </mesh>
+            </mesh> */}
+            <Suspense fallback={null}>
+              <CupVisual />
+            </Suspense>
           </RigidBody>
 
           {spawns.map((spawn, i) => (
